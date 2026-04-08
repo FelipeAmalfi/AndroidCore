@@ -11,8 +11,8 @@ import java.io.IOException
  *
  * Usage:
  * ```
- * val docs = AgentDocumentation(context)
- * val agentSpec = docs.readAgent("AGENTS.md")
+ * val intro = AgentDocumentation.readDocumentation(context, "overview/introduction.md")
+ * val featureGuide = AgentDocumentation.getExecutionGuide(context)
  * ```
  */
 object AgentDocumentation {
@@ -23,32 +23,20 @@ object AgentDocumentation {
      * List of available agent documentation files.
      */
     val availableDocuments = listOf(
-        "AGENTS.md",
-        "AGENT_DESCRIPTOR_VERSIONING.md",
-        "AGENT_EXECUTION_GUIDE.md",
-        "AGENT_INTEGRATION_POINTS.md",
-        "AGENT_QUICK_INDEX.md",
-        "AGENT_SYSTEM_READY.md",
-        "AGENT_SYSTEM_SETUP.md",
-        "AGENT_TEMPLATES.md",
-        "AGENT_VISUAL_WORKFLOW.md",
-        "CORE_UTILITIES.md",
-        "EXTENDED_IMPLEMENTATION_SUMMARY.md",
-        "EXTENDED_UTILITIES.md",
-        "IMPLEMENTATION_CHECKLIST.md",
-        "IMPLEMENTATION_SUMMARY.md",
-        "INDEX.md",
-        "INTEGRATION_EXAMPLES.md",
-        "QUICK_REFERENCE.md",
-        "README_AGENTS.md",
-        "README_EXTENDED_CORE.md"
+        "overview/introduction.md",
+        "overview/system-vision.md",
+        "architecture/clean-architecture.md",
+        "architecture/mvi-overview.md",
+        "guides/how-to-create-feature.md",
+        "guides/how-agents-work.md",
+        "examples/end-to-end-example.md"
     )
 
     /**
      * Read a specific agent documentation file.
      *
      * @param context Android context for accessing assets
-     * @param fileName Name of the documentation file (e.g., "AGENTS.md")
+     * @param fileName Relative path under assets/agents (e.g., "overview/introduction.md")
      * @return Content of the documentation file as String
      * @throws IOException if file is not found or cannot be read
      */
@@ -59,38 +47,38 @@ object AgentDocumentation {
     }
 
     /**
-     * Get the main agents specification.
+     * Get an overview of how agents fit into the system.
      */
     @Throws(IOException::class)
     fun getAgentsSpecification(context: Context): String =
-        readDocumentation(context, "AGENTS.md")
+        readDocumentation(context, "guides/how-agents-work.md")
 
     /**
-     * Get the execution guide for using agents.
+     * Get the feature creation guide.
      */
     @Throws(IOException::class)
     fun getExecutionGuide(context: Context): String =
-        readDocumentation(context, "AGENT_EXECUTION_GUIDE.md")
+        readDocumentation(context, "guides/how-to-create-feature.md")
 
     /**
-     * Get the quick index/navigation guide.
+     * Get the top-level introduction guide.
      */
     @Throws(IOException::class)
     fun getQuickIndex(context: Context): String =
-        readDocumentation(context, "AGENT_QUICK_INDEX.md")
+        readDocumentation(context, "overview/introduction.md")
 
     /**
-     * Get the code templates for agents.
+     * Legacy alias kept for compatibility; returns the end-to-end feature example.
      */
     @Throws(IOException::class)
     fun getTemplates(context: Context): String =
-        readDocumentation(context, "AGENT_TEMPLATES.md")
+        readDocumentation(context, "examples/end-to-end-example.md")
 
     /**
-     * Get the integration points documentation.
+     * Legacy alias kept for compatibility; returns the clean architecture overview.
      */
     @Throws(IOException::class)
     fun getIntegrationPoints(context: Context): String =
-        readDocumentation(context, "AGENT_INTEGRATION_POINTS.md")
+        readDocumentation(context, "architecture/clean-architecture.md")
 }
 
