@@ -239,6 +239,10 @@ Requirements:
 
 When ready to generate code, use this format:
 
+**Agent reference rule:**
+- Invoke by stable agent `name` (for example `data-layer-agent`), not by filename.
+- Descriptor files are Markdown and versioned under `agents/*.agent.md` and `skills/*.skill.md`.
+
 ```
 [FEATURE SPECIFICATION]
 

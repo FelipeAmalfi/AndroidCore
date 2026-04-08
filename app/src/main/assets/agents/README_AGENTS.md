@@ -22,6 +22,11 @@
   - Key principles
   - Success metrics
 
+- **`AGENT_DESCRIPTOR_VERSIONING.md`** - Descriptor naming and semantic versioning (5 min read)
+  - `.agent.md` and `.skill.md` conventions
+  - Metadata contract and compatibility rules
+  - Prompt invocation by stable agent name
+
 - **`AGENTS.md`** - Complete specifications (20 min read)
   - All 6 agent responsibilities
   - Input/output specs

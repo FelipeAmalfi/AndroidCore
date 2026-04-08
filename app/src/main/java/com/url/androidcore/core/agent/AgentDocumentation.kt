@@ -24,6 +24,7 @@ object AgentDocumentation {
      */
     val availableDocuments = listOf(
         "AGENTS.md",
+        "AGENT_DESCRIPTOR_VERSIONING.md",
         "AGENT_EXECUTION_GUIDE.md",
         "AGENT_INTEGRATION_POINTS.md",
         "AGENT_QUICK_INDEX.md",
