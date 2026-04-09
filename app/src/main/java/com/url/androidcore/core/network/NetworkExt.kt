@@ -2,6 +2,7 @@ package com.url.androidcore.core.network
 
 import com.url.androidcore.core.error.AppError
 import com.url.androidcore.core.usecase.Result
+import com.url.androidcore.core.usecase.map
 import kotlinx.coroutines.CancellationException
 
 /**
@@ -37,15 +38,12 @@ suspend inline fun <T> safeApiCall(crossinline block: suspend () -> T): Result<T
  * @return AppError.Network with status code and retry hints
  */
 fun Exception.toNetworkError(): AppError.Network {
-    return when (this) {
-        is AppError.Network -> this
-        else -> AppError.Network(
-            message = this.message ?: "Network request failed",
-            statusCode = null,
-            cause = this,
-            isRetryable = isRetryableException(this)
-        )
-    }
+    return AppError.Network(
+        message = this.message ?: "Network request failed",
+        statusCode = null,
+        cause = this,
+        isRetryable = isRetryableException(this)
+    )
 }
 
 /**

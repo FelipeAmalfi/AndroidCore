@@ -41,6 +41,7 @@ The repository currently includes these agent descriptors:
 - `test.agent.md`
 - `enhancement.agent.md`
 - `documentation.agent.md`
+- `di.agent.md`
 
 ## What each agent is for
 
@@ -53,6 +54,7 @@ The repository currently includes these agent descriptors:
 | test | validation across layers and scenarios |
 | enhancement | optional resilience and performance improvements |
 | documentation | maintenance of modular knowledge and documentation boundaries |
+| di | Dagger Hilt modules that wire all feature layers together |
 
 ## How agents stay consistent
 
@@ -64,6 +66,7 @@ For example:
 - presentation relies on MVI, naming, mapping, and core-usage skills
 - data relies on architecture, error-handling, workflow, and core-usage skills
 - documentation relies on governance and architecture skills
+- di relies on di-hilt, naming-conventions, clean-architecture, and core-usage skills
 
 That arrangement reduces duplication and makes the system easier to evolve.
 
@@ -122,8 +125,11 @@ Those are better maintained in `.github/skills/` and `.github/agents/`.
 ## Suggested follow-up reading
 
 - `docs/guides/how-to-create-feature.md`
+- `docs/guides/how-to-setup-di.md`
 - `docs/guides/using-agent-documentation.md`
 - `docs/examples/end-to-end-example.md`
 - `.github/agents/presentation.agent.md`
+- `.github/agents/di.agent.md`
 - `.github/skills/agent-workflow.skill.md`
+- `.github/skills/di-hilt.skill.md`
 

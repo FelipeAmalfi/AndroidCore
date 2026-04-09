@@ -32,7 +32,8 @@ When generating a feature, move in this order:
 3. mapper layer
 4. presentation layer
 5. tests
-6. enhancement work only if needed
+6. dependency injection (Dagger Hilt modules via `di-agent`)
+7. enhancement work only if needed
 
 ## Naming rules
 Use the AndroidCore naming patterns already documented in `AGENTS.md` and `.github/skills/naming-conventions.skill.md`, including:
@@ -46,8 +47,11 @@ Use the AndroidCore naming patterns already documented in `AGENTS.md` and `.gith
 ## Files to consult for exact rules
 - `AGENTS.md`
 - `.github/skills/*.skill.md`
+- `.github/skills/di-hilt.skill.md`
 - `.github/agents/*.agent.md`
+- `.github/agents/di.agent.md`
 - `docs/guides/how-to-create-feature.md`
+- `docs/guides/how-to-setup-di.md`
 - `docs/guides/how-agents-work.md`
 
 ## Documentation sync rule

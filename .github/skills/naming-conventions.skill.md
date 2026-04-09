@@ -17,9 +17,12 @@ legacy_file: naming-conventions.skill
 - Use {Action}{Feature}UseCase for domain operations and {Feature}Repository for domain contracts.
 - Use {Feature}Service, {Feature}Dto, {Feature}DataSource, and {Feature}RepositoryImpl for data layer artifacts.
 - Keep mapper file names as {Feature}Mapper.kt with extension function names toDomain and toUi.
+- Name Hilt module files {Feature}DataModule.kt for data-layer bindings and {Feature}DomainModule.kt for domain-layer bindings; use {Feature}Module.kt only for single-layer features.
+- Place all Hilt module files in the feature/{feature}/di/ package.
 
 ## Examples
 - UserIntent, UserUiState, UserUiEffect, UserViewModel
 - GetUserUseCase, UpdateUserUseCase
 - UserService, UserDto, UserDataSourceImpl, UserRepositoryImpl
+- UserDataModule, UserDomainModule (package: feature/user/di/)
 

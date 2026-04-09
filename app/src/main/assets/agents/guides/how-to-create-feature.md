@@ -33,7 +33,8 @@ AndroidCore expects a feature to be developed in this sequence:
 3. mapper layer
 4. presentation layer
 5. tests
-6. enhancement work if needed
+6. dependency injection
+7. enhancement work if needed
 
 This order keeps contracts stable and reduces rework.
 
@@ -106,7 +107,26 @@ Cover the paths that matter most:
 
 The core testing helpers are intended to keep this fast and consistent.
 
-## Step 6: Add enhancements only after the base feature works
+## Step 6: Wire dependency injection
+
+Use Dagger Hilt to connect all interface/implementation pairs.
+
+Typical outputs:
+
+- `{Feature}DataModule` binding repositories and data sources
+- `{Feature}DomainModule` binding domain components when needed
+- `@Inject constructor` on all implementation classes
+- `@HiltViewModel` on the ViewModel
+
+Questions to answer:
+
+- Which bindings need `@Singleton` scope?
+- Are there multiple implementations of the same interface that require qualifiers?
+- Are any third-party instances (Retrofit service, SharedPreferences) provided via `@Provides`?
+
+See `docs/guides/how-to-setup-di.md` for the full module patterns.
+
+## Step 7: Add enhancements only after the base feature works
 
 Enhancement work is optional and should happen after the core path is stable.
 
@@ -147,5 +167,6 @@ Before considering a feature complete, confirm that:
 
 - For system understanding: `docs/guides/how-agents-work.md`
 - For architecture context: `docs/architecture/clean-architecture.md`
+- For DI setup: `docs/guides/how-to-setup-di.md`
 - For a concrete walkthrough: `docs/examples/end-to-end-example.md`
 

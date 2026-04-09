@@ -51,6 +51,14 @@ object DateFormatter {
     )
 
     /**
+     * Numeric day/month/year display format (e.g., "09/04/2026").
+     */
+    private fun createDayMonthYearFormatter(): SimpleDateFormat = SimpleDateFormat(
+        "dd/MM/yyyy",
+        Locale.getDefault()
+    )
+
+    /**
      * Format timestamp (milliseconds since epoch) to ISO 8601 string.
      * Agents template: Use for API serialization.
      */
@@ -81,6 +89,11 @@ object DateFormatter {
     fun toUiDateTime(timeMillis: Long): String = createUiDateTimeFormatter().format(Date(timeMillis))
 
     /**
+     * Format timestamp to day/month/year display string (e.g., "09/04/2026").
+     */
+    fun toDayMonthYear(timeMillis: Long): String = createDayMonthYearFormatter().format(Date(timeMillis))
+
+    /**
      * Format Date object to ISO 8601 string.
      * Agents template: Use for Date → API string conversion.
      */
@@ -96,6 +109,11 @@ object DateFormatter {
      * Format Date object to UI datetime string.
      */
     fun toUiDateTime(date: Date): String = createUiDateTimeFormatter().format(date)
+
+    /**
+     * Format Date object to day/month/year display string.
+     */
+    fun toDayMonthYear(date: Date): String = createDayMonthYearFormatter().format(date)
 }
 
 /**
@@ -116,6 +134,8 @@ fun Long.toUiTime(): String = DateFormatter.toUiTime(this)
 
 fun Long.toUiDateTime(): String = DateFormatter.toUiDateTime(this)
 
+fun Long.toDayMonthYear(): String = DateFormatter.toDayMonthYear(this)
+
 /**
  * Extension function for Date formatting.
  */
@@ -124,6 +144,8 @@ fun Date.toIso8601(): String = DateFormatter.toIso8601(this)
 fun Date.toUiDate(): String = DateFormatter.toUiDate(this)
 
 fun Date.toUiDateTime(): String = DateFormatter.toUiDateTime(this)
+
+fun Date.toDayMonthYear(): String = DateFormatter.toDayMonthYear(this)
 
 /**
  * Relative time formatter (e.g., "5 minutes ago", "2 hours ago").

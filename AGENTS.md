@@ -16,9 +16,10 @@
 - Prefer shared async helpers for retry/timeout/parallel/Flow work (`core/coroutines/RetryExt.kt`, `TimeoutExt.kt`, `ParallelExt.kt`, `core/flow/FlowExt.kt`) instead of ad-hoc coroutine/Flow plumbing; examples already provided include `retryWithExponentialBackoff`, `withTimeoutSafe`, `parallel`, `debounceLatest`, and `asAsyncState()`.
 
 ## Feature Generation Workflow (Project Convention)
-- Required phase order: data-layer -> domain -> mapper -> presentation -> test -> enhancement(optional) (`.github/skills/agent-workflow.skill.md`).
+- Required phase order: data-layer -> domain -> mapper -> presentation -> test -> di -> enhancement(optional) (`.github/skills/agent-workflow.skill.md`).
 - Expected feature package layout and flow are documented at a high level in `docs/guides/how-to-create-feature.md`.
-- Naming is strict and suffix-driven (`.github/skills/naming-conventions.skill.md`): `{Feature}Intent`, `{Feature}UiState`, `{Feature}UiEffect`, `{Feature}ViewModel`, `{Action}{Feature}UseCase`, `{Feature}Repository`, `{Feature}RepositoryImpl`, `{Feature}Service`, `{Feature}Dto`, `{Feature}DataSource`/`{Feature}DataSourceImpl`, `{Feature}Mapper.kt`.
+- DI wiring is handled by the `di-agent` (`di.agent.md`) using Dagger Hilt; rules live in `.github/skills/di-hilt.skill.md` and the human-facing guide is in `docs/guides/how-to-setup-di.md`.
+- Naming is strict and suffix-driven (`.github/skills/naming-conventions.skill.md`): `{Feature}Intent`, `{Feature}UiState`, `{Feature}UiEffect`, `{Feature}ViewModel`, `{Action}{Feature}UseCase`, `{Feature}Repository`, `{Feature}RepositoryImpl`, `{Feature}Service`, `{Feature}Dto`, `{Feature}DataSource`/`{Feature}DataSourceImpl`, `{Feature}Mapper.kt`, `{Feature}DataModule`, `{Feature}DomainModule`.
 - Mapper layer uses extension functions only (`Dto.toDomain()`, `Domain.toUi()`), no mapper classes (`.github/skills/mapping-rules.skill.md`, `.github/agents/mapper.agent.md`).
 - Reference agents by stable `name` in prompts (for example `data-layer-agent`), not by filename.
 
@@ -34,6 +35,7 @@
 - Do not recreate core infrastructure already present in `core/*`; compose from it, including shared repository/data-source/connectivity abstractions (`.github/skills/core-usage.skill.md`).
 - Keep data layer free of business rules; keep domain free of Android imports; keep presentation free of direct data-layer dependencies (`.github/skills/clean-architecture.skill.md`).
 - For failures, map early to `AppError` and surface user-safe messages; preserve retryability semantics for network paths (`.github/skills/error-handling.skill.md`).
+- Use Dagger Hilt for all dependency injection; follow `.github/skills/di-hilt.skill.md` for module structure, scoping, and `@Inject` placement.
 - Normative generation rules live in `.github/skills/*.skill.md`; `.github/agents/*.agent.md` are execution descriptors that reference those skills; `docs/**/*.md` remains the human-facing overview layer (`docs/guides/how-agents-work.md`, `.github/skills/documentation-governance.skill.md`).
 - When docs move or new docs are added, keep `docs/**`, mirrored assets under `app/src/main/assets/agents/**`, and `core/agent/AgentDocumentation.kt` (`availableDocuments` plus helper accessors) in sync.
 - Documentation source of truth for high-level understanding lives in `docs/**/*.md`; bundled copies under `app/src/main/assets/agents/` are exposed via `core/agent/AgentDocumentation.kt`.

@@ -31,6 +31,7 @@ object AgentDocumentation {
     const val HOW_TO_CREATE_FEATURE = "guides/how-to-create-feature.md"
     const val HOW_AGENTS_WORK = "guides/how-agents-work.md"
     const val USING_AGENT_DOCUMENTATION = "guides/using-agent-documentation.md"
+    const val HOW_TO_SETUP_DI = "guides/how-to-setup-di.md"
     const val END_TO_END_EXAMPLE = "examples/end-to-end-example.md"
 
     /**
@@ -44,6 +45,7 @@ object AgentDocumentation {
         HOW_TO_CREATE_FEATURE,
         HOW_AGENTS_WORK,
         USING_AGENT_DOCUMENTATION,
+        HOW_TO_SETUP_DI,
         END_TO_END_EXAMPLE
     )
 
@@ -146,6 +148,13 @@ object AgentDocumentation {
     @Throws(IOException::class)
     fun getQuickIndex(context: Context): String =
         readDocumentation(context, INTRODUCTION)
+
+    /**
+     * Get the dependency injection setup guide.
+     */
+    @Throws(IOException::class)
+    fun getDiSetupGuide(context: Context): String =
+        readDocumentation(context, HOW_TO_SETUP_DI)
 
     /**
      * Get the end-to-end example.

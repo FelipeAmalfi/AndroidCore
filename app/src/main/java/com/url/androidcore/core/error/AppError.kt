@@ -9,8 +9,8 @@ package com.url.androidcore.core.error
  * @see Throwable.toAppError for exception mapping
  */
 sealed class AppError(
-    open val message: String = "",
-    open val cause: Throwable? = null
+    override val message: String = "",
+    override val cause: Throwable? = null
 ) : Throwable(message, cause) {
 
     /**
