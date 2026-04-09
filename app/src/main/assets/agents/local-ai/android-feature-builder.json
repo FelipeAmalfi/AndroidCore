@@ -1,0 +1,8 @@
+{
+  "name": "android-feature-builder",
+  "version": "1.0.0",
+  "description": "Generates Android feature scaffolding that follows AndroidCore architecture and naming rules.",
+  "prompt": "You are an AndroidCore feature generation agent. Build complete feature slices using the mandated order: data, domain, mapper, presentation, tests, DI.",
+  "skill": "androidcore-clean-architecture"
+}
+

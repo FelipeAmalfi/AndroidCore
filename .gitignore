@@ -14,3 +14,5 @@
 .cxx
 local.properties
 .env
+.ai/
+mcp-server/node_modules/

@@ -60,35 +60,10 @@ Typical commands from the repository root:
 .\gradlew.bat :app:lint
 ```
 
-## Bundled documentation for consuming apps
-
-This library ships mirrored markdown documentation as Android assets under `app/src/main/assets/agents/**`.
-A consuming app can read that content at runtime through `AgentDocumentation`.
-
-Example:
-
-```kotlin
-import com.url.androidcore.core.agent.AgentDocumentation
-
-fun loadAndroidCoreGuide(context: android.content.Context): String {
-    return AgentDocumentation.getExecutionGuide(context)
-}
-```
-
-You can also build one combined markdown bundle for prompt context:
-
-```kotlin
-import com.url.androidcore.core.agent.AgentDocumentation
-
-fun buildPromptContext(context: android.content.Context): String {
-    return AgentDocumentation.buildCopilotContext(context)
-}
-```
-
 ## Important limitation for Copilot and other IDE agents
 
-Bundled Android assets are a **runtime delivery mechanism**.
-They are useful for host apps, debug screens, exports, or tooling built on top of the app.
+Bundled Android assets are **static documentation** under `app/src/main/assets/agents/**`.
+They are useful for reference and tooling that reads static files.
 
 They are **not** automatically ingested by Copilot just because the library is imported.
 If you want the consuming repository to benefit from this guidance during AI-assisted coding, use one of these approaches:
@@ -120,6 +95,34 @@ That command writes consumer-visible guidance files into the target repository:
 
 This repository also now includes its own `.github/copilot-instructions.md` so Copilot has a short, direct entrypoint when working inside AndroidCore itself.
 
+## Local-first AI system
+
+This repository now includes a complete local-first AI setup for developer tooling:
+
+- bundled agents in `app/src/main/assets/agents/local-ai/*.json`
+- bundled skills in `app/src/main/assets/skills/*`
+- local MCP-style server in `mcp-server/` (Express, localhost only)
+- Gradle bootstrap tasks to export and run everything
+
+Primary automation tasks:
+
+```powershell
+.\gradlew.bat setupLocalAI
+.\gradlew.bat startLocalMcp
+.\gradlew.bat initAI
+```
+
+Generated local output:
+
+```text
+.ai/
+  agents/
+  skills/
+  manifest.json
+```
+
+Read the full guide at `docs/guides/local-first-ai-system.md`.
+
 ## Where to start reading
 
 Recommended reading order:
@@ -131,17 +134,12 @@ Recommended reading order:
 5. `docs/guides/how-agents-work.md`
 6. `docs/guides/how-to-create-feature.md`
 7. `docs/guides/using-agent-documentation.md`
-8. `docs/examples/end-to-end-example.md`
+8. `docs/guides/local-first-ai-system.md`
+9. `docs/examples/end-to-end-example.md`
 
 ## Notes for maintainers
 
-When documentation changes, keep these locations synchronized:
-
-- `docs/**`
-- `app/src/main/assets/agents/**`
-- `app/src/main/java/com/url/androidcore/core/agent/AgentDocumentation.kt`
-
-That includes `availableDocuments` and convenience accessors in `AgentDocumentation`.
+Bundled markdown documentation lives in `app/src/main/assets/agents/**` and is synchronized from source docs.
 
 ## Current distribution state
 
