@@ -97,6 +97,17 @@ Go to `.github/skills/*.skill.md` when you need:
 
 - the actual standards behind those instructions
 
+## Using the guidance from another project
+
+The repository also bundles the high-level `docs/**` markdown as Android assets under
+`app/src/main/assets/agents/**` so consuming apps can read it at runtime through
+`core/agent/AgentDocumentation.kt`.
+
+That runtime access does **not** automatically make the guidance visible to Copilot or other IDE assistants.
+If you want AI help in a consuming repository, copy or attach the relevant text explicitly.
+
+For the practical consumer workflow, read `docs/guides/using-agent-documentation.md`.
+
 ## What this guide intentionally avoids
 
 This file does not duplicate:
@@ -111,6 +122,7 @@ Those are better maintained in `.github/skills/` and `.github/agents/`.
 ## Suggested follow-up reading
 
 - `docs/guides/how-to-create-feature.md`
+- `docs/guides/using-agent-documentation.md`
 - `docs/examples/end-to-end-example.md`
 - `.github/agents/presentation.agent.md`
 - `.github/skills/agent-workflow.skill.md`

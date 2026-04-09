@@ -1,0 +1,25 @@
+{
+  "templateMappings": [
+    {
+      "source": "templates/consumer-copilot/AGENTS.md",
+      "target": "AGENTS.md"
+    },
+    {
+      "source": "templates/consumer-copilot/.github/copilot-instructions.md",
+      "target": ".github/copilot-instructions.md"
+    }
+  ],
+  "bundle": {
+    "target": "docs/androidcore/androidcore-guidance.md",
+    "sources": [
+      "AGENTS.md",
+      "docs/overview/introduction.md",
+      "docs/architecture/clean-architecture.md",
+      "docs/architecture/mvi-overview.md",
+      "docs/guides/how-agents-work.md",
+      "docs/guides/how-to-create-feature.md",
+      "docs/guides/using-agent-documentation.md"
+    ]
+  }
+}
+
