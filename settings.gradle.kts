@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidCore"
 include(":app")
+include(":design-system")

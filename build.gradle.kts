@@ -2,6 +2,7 @@
 plugins {
     id("com.android.library") version "8.13.2" apply false
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
 }
 
 val localAiGroup = "local-ai"
