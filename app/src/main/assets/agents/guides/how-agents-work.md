@@ -42,6 +42,7 @@ The repository currently includes these agent descriptors:
 - `enhancement.agent.md`
 - `documentation.agent.md`
 - `di.agent.md`
+- `figma-compose.agent.md`
 
 ## What each agent is for
 
@@ -55,6 +56,7 @@ The repository currently includes these agent descriptors:
 | enhancement | optional resilience and performance improvements |
 | documentation | maintenance of modular knowledge and documentation boundaries |
 | di | Dagger Hilt modules that wire all feature layers together |
+| figma compose | reads Figma MCP design data and generates reusable Compose visuals |
 
 ## How agents stay consistent
 
@@ -130,6 +132,8 @@ Those are better maintained in `.github/skills/` and `.github/agents/`.
 - `docs/examples/end-to-end-example.md`
 - `.github/agents/presentation.agent.md`
 - `.github/agents/di.agent.md`
+- `.github/agents/figma-compose.agent.md`
 - `.github/skills/agent-workflow.skill.md`
 - `.github/skills/di-hilt.skill.md`
+- `docs/guides/how-to-use-figma-compose-agent.md`
 

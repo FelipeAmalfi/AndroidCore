@@ -178,44 +178,44 @@ app.get("/agents/:name", (req, res) => {
 });
 
 app.post("/generate", (req, res) => {
-  const { agentName, userInput, includeProjectContext = true } = req.body || {};
+   const { agentName, userInput, includeProjectContext = true } = req.body || {};
 
-  if (!agentName || !userInput) {
-    res.status(400).json({
-      error: "Request body must include 'agentName' and 'userInput'."
-    });
-    return;
-  }
+   if (!agentName || !userInput) {
+     res.status(400).json({
+       error: "Request body must include 'agentName' and 'userInput'."
+     });
+     return;
+   }
 
-  const agent = loadAllAgents().find((item) => item.name.toLowerCase() === String(agentName).toLowerCase());
-  if (!agent) {
-    res.status(404).json({
-      error: `Agent '${agentName}' was not found in ${agentsDir}`
-    });
-    return;
-  }
+   const agent = loadAllAgents().find((item) => item.name.toLowerCase() === String(agentName).toLowerCase());
+   if (!agent) {
+     res.status(404).json({
+       error: `Agent '${agentName}' was not found in ${agentsDir}`
+     });
+     return;
+   }
 
-  const skill = resolveSkillFile(agent.skill);
-  const prompt = composePrompt({
-    agent,
-    userInput,
-    skillContent: skill ? skill.content : null,
-    projectContext: includeProjectContext ? getProjectContext() : null
-  });
+   const skill = resolveSkillFile(agent.skill);
+   const prompt = composePrompt({
+     agent,
+     userInput,
+     skillContent: skill ? skill.content : null,
+     projectContext: includeProjectContext ? getProjectContext() : null
+   });
 
-  res.json({
-    agent: {
-      name: agent.name,
-      version: agent.version || "1.0.0",
-      skill: skill ? skill.name : null
-    },
-    generatedPrompt: prompt,
-    metadata: {
-      localOnly: true,
-      includeProjectContext,
-      timestamp: new Date().toISOString()
-    }
-  });
+   res.json({
+     agent: {
+       name: agent.name,
+       version: agent.version || "1.0.0",
+       skill: skill ? skill.name : null
+     },
+     generatedPrompt: prompt,
+     metadata: {
+       localOnly: true,
+       includeProjectContext,
+       timestamp: new Date().toISOString()
+     }
+   });
 });
 
 app.listen(PORT, "127.0.0.1", () => {

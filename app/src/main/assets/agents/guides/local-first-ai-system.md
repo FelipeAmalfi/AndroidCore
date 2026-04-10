@@ -52,6 +52,7 @@ This generates:
 ```powershell
 Invoke-RestMethod -Uri "http://127.0.0.1:3333/agents"
 Invoke-RestMethod -Uri "http://127.0.0.1:3333/agents/android-feature-builder"
+Invoke-RestMethod -Uri "http://127.0.0.1:3333/agents/android-figma-compose-builder"
 ```
 
 ### Prompt composition request
@@ -60,6 +61,21 @@ Invoke-RestMethod -Uri "http://127.0.0.1:3333/agents/android-feature-builder"
 $body = @{
   agentName = "android-feature-builder"
   userInput = "Create a feature to load user profile with MVI and use cases"
+  includeProjectContext = $true
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:3333/generate" -ContentType "application/json" -Body $body
+```
+
+### Prompt composition request (Figma to Compose)
+
+```powershell
+$body = @{
+  agentName = "android-figma-compose-builder"
+  userInput = @"
+Use Figma MCP data for node ids [12:48, 12:130] and generate reusable Compose UI.
+Map auto layout to Row/Column/Box, preserve spacing and typography, and report fallbacks.
+"@
   includeProjectContext = $true
 } | ConvertTo-Json
 
@@ -106,6 +122,12 @@ Example:
   "skill": "androidcore-clean-architecture"
 }
 ```
+
+Built-in local agents include:
+
+- `android-feature-builder`
+- `android-code-reviewer`
+- `android-figma-compose-builder`
 
 ## 6. Creating Custom Agents
 
