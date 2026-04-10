@@ -112,6 +112,26 @@ Primary automation tasks:
 .\gradlew.bat initAI
 ```
 
+## Autonomous docs pipeline
+
+This repository now includes a docs automation agent that can run locally and in CI.
+
+Primary docs tasks:
+
+```powershell
+.\gradlew.bat installDocsPrePushHook
+.\gradlew.bat generateDocs
+.\gradlew.bat publishDocs
+```
+
+Main docs automation files:
+
+- `agents/docs-agent/config.json`
+- `agents/docs-agent/runner.js`
+- `scripts/hooks/pre-push`
+- `.github/workflows/docs.yml`
+- `docs/guides/autonomous-docs-agent.md`
+
 Generated local output:
 
 ```text

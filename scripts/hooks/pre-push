@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+# Run docs generation + publish before push, but do not block push on publish failures.
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [ -z "$REPO_ROOT" ]; then
+  echo "[docs-agent] Unable to resolve repository root; skipping docs hook."
+  exit 0
+fi
+
+FROM_SHA=""
+TO_SHA=""
+
+while read -r LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA
+ do
+  TO_SHA="$LOCAL_SHA"
+  FROM_SHA="$REMOTE_SHA"
+ done
+
+if command -v node >/dev/null 2>&1; then
+  node "$REPO_ROOT/agents/docs-agent/runner.js" --mode run --from "$FROM_SHA" --to "$TO_SHA" --allow-publish-failure
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -ne 0 ]; then
+    echo "[docs-agent] Docs hook failed but push will continue."
+  fi
+else
+  echo "[docs-agent] node is not available; skipping docs generation."
+fi
+
+exit 0
+

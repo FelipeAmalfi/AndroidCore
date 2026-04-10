@@ -1,0 +1,38 @@
+{
+  "docsPath": "docs",
+  "modules": [
+    "app",
+    "design-system",
+    "features",
+    "core"
+  ],
+  "sourceGlobs": [
+    "app/src/main/**/*.kt",
+    "design-system/src/main/**/*.kt",
+    "features/**/*.kt",
+    "core/**/*.kt"
+  ],
+  "tokenPaths": {
+    "colors": "design-system/src/main/java/com/url/androidcore/designsystem/tokens/color/DSColors.kt",
+    "spacing": "design-system/src/main/java/com/url/androidcore/designsystem/tokens/spacing/DSSpacing.kt",
+    "typography": "design-system/src/main/java/com/url/androidcore/designsystem/tokens/typography/DSTypography.kt"
+  },
+  "cache": {
+    "file": ".ai/docs-agent-cache.json"
+  },
+  "dracosaurus": {
+    "enabled": true,
+    "command": "dracosaurus",
+    "args": [
+      "push",
+      "./docs"
+    ],
+    "retryInCi": 3
+  },
+  "mcp": {
+    "enabled": false,
+    "tokensFile": "agents/docs-agent/config/mcp-tokens.json"
+  },
+  "autoPublish": true
+}
+

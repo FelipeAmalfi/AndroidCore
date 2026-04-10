@@ -1,0 +1,14 @@
+{
+  "name": "docs-agent",
+  "version": "1.0.0",
+  "description": "Scans Kotlin + design tokens, generates docs, organizes docs, and publishes to Dracosaurus.",
+  "pipeline": [
+    "scan-project",
+    "extract-kotlin-components",
+    "extract-design-tokens",
+    "generate-docs",
+    "organize-docs",
+    "publish-dracosaurus"
+  ]
+}
+

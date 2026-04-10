@@ -1,0 +1,65 @@
+[
+  {
+    "name": "DSTheme",
+    "path": "design-system/src/main/java/com/url/androidcore/designsystem/theme/DSTheme.kt",
+    "parameters": [
+      {
+        "name": "darkTheme",
+        "type": "Boolean",
+        "defaultValue": "false"
+      },
+      {
+        "name": "colors",
+        "type": "DSColors",
+        "defaultValue": "if (darkTheme) DefaultTokens.darkColors() else DefaultTokens.lightColors()"
+      },
+      {
+        "name": "typography",
+        "type": "DSTypography",
+        "defaultValue": "DefaultTokens.typography"
+      },
+      {
+        "name": "spacing",
+        "type": "DSSpacing",
+        "defaultValue": "DefaultTokens.spacing"
+      },
+      {
+        "name": "shapes",
+        "type": "DSShapes",
+        "defaultValue": "DefaultTokens.shapes"
+      },
+      {
+        "name": "elevation",
+        "type": "DSElevation",
+        "defaultValue": "DefaultTokens.elevation"
+      },
+      {
+        "name": "border",
+        "type": "DSBorder",
+        "defaultValue": "DefaultTokens.border"
+      },
+      {
+        "name": "opacity",
+        "type": "DSOpacity",
+        "defaultValue": "DefaultTokens.opacity"
+      },
+      {
+        "name": "motion",
+        "type": "DSMotion",
+        "defaultValue": "DefaultTokens.motion"
+      },
+      {
+        "name": "layout",
+        "type": "DSLayout",
+        "defaultValue": "DefaultTokens.layout"
+      },
+      {
+        "name": "content",
+        "type": "@Composable () -> Unit",
+        "defaultValue": ""
+      }
+    ],
+    "previews": [],
+    "stateParameters": []
+  }
+]

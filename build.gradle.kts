@@ -6,6 +6,7 @@ plugins {
 }
 
 val localAiGroup = "local-ai"
+val docsGroup = "documentation"
 val isWindows = System.getProperty("os.name").contains("Windows", ignoreCase = true)
 
 tasks.register("setupLocalAI") {
@@ -93,3 +94,44 @@ tasks.register("initAI") {
     description = "Bootstraps local AI files and starts the local MCP server."
     dependsOn("startLocalMcp")
 }
+
+tasks.register<Exec>("generateDocs") {
+    group = docsGroup
+    description = "Runs the docs agent generation pipeline."
+    workingDir = rootDir
+    commandLine(
+        if (isWindows) {
+            listOf("cmd", "/c", "node agents\\docs-agent\\runner.js --mode generate")
+        } else {
+            listOf("sh", "-c", "node agents/docs-agent/runner.js --mode generate")
+        }
+    )
+}
+
+tasks.register<Exec>("publishDocs") {
+    group = docsGroup
+    description = "Runs docs generation and publishes docs to Dracosaurus."
+    workingDir = rootDir
+    dependsOn("generateDocs", "installDocsPrePushHook")
+    commandLine(
+        if (isWindows) {
+            listOf("cmd", "/c", "node agents\\docs-agent\\runner.js --mode publish --allow-publish-failure")
+        } else {
+            listOf("sh", "-c", "node agents/docs-agent/runner.js --mode publish --allow-publish-failure")
+        }
+    )
+}
+
+tasks.register<Exec>("installDocsPrePushHook") {
+    group = docsGroup
+    description = "Installs the docs pre-push hook into .git/hooks."
+    workingDir = rootDir
+    commandLine(
+        if (isWindows) {
+            listOf("powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "scripts/install-docs-pre-push-hook.ps1")
+        } else {
+            listOf("sh", "-c", "chmod +x scripts/install-docs-pre-push-hook.sh && scripts/install-docs-pre-push-hook.sh")
+        }
+    )
+}
+
