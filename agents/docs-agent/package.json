@@ -2,12 +2,13 @@
   "name": "androidcore-docs-agent",
   "version": "1.0.0",
   "private": true,
-  "description": "Autonomous documentation generator and Dracosaurus publisher for AndroidCore",
+  "description": "Autonomous documentation generator and Docusaurus builder for AndroidCore",
   "main": "runner.js",
   "scripts": {
     "run": "node runner.js",
     "generate": "node runner.js --mode generate",
-    "publish": "node runner.js --mode publish"
+    "publish": "node runner.js --mode publish",
+    "build-site": "node runner.js --mode publish"
   }
 }
 

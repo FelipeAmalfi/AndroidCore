@@ -5,4 +5,4 @@
 3. Extract design tokens
 4. Generate docs
 5. Organize docs
-6. Publish
+6. Build Docusaurus site

@@ -1,10 +1,23 @@
 name: Docs Pipeline
 
 on:
+  pull_request:
   push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: docs-pages-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  docs:
+  docs-build:
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
@@ -27,7 +40,8 @@ jobs:
           node-version: "20"
           cache: npm
           cache-dependency-path: |
-            **/package-lock.json
+            website/package-lock.json
+            website/package.json
 
       - name: Ensure docs folders
         shell: bash
@@ -42,37 +56,26 @@ jobs:
         run: |
           node agents/docs-agent/runner.js --mode generate
 
-      - name: Publish docs to Dracosaurus (retry)
+      - name: Install website dependencies
         shell: bash
-        env:
-          DRACOSAURUS_TOKEN: ${{ secrets.DRACOSAURUS_TOKEN }}
-          DRACOSAURUS_BASE_URL: ${{ secrets.DRACOSAURUS_BASE_URL }}
         run: |
-          set +e
+          npm --prefix website install --no-audit --no-fund
+
+      - name: Build Docusaurus site
+        shell: bash
+        run: |
           mkdir -p .ai
-          : > .ai/docs-agent-ci.log
-          attempts=3
-          delay=5
-          success=0
-          for attempt in $(seq 1 $attempts); do
-            echo "Publish attempt $attempt/$attempts" | tee -a .ai/docs-agent-ci.log
-            node agents/docs-agent/runner.js --mode publish 2>&1 | tee -a .ai/docs-agent-ci.log
-            code=$?
-            if [ $code -eq 0 ]; then
-              success=1
-              break
-            fi
-            echo "Publish failed with code $code" | tee -a .ai/docs-agent-ci.log
-            if [ $attempt -lt $attempts ]; then
-              echo "Retrying in ${delay}s" | tee -a .ai/docs-agent-ci.log
-              sleep $delay
-              delay=$((delay * 2))
-            fi
-          done
-          if [ $success -ne 1 ]; then
-            echo "Publish failed after retries" | tee -a .ai/docs-agent-ci.log
-            exit 1
-          fi
+          node agents/docs-agent/runner.js --mode publish 2>&1 | tee .ai/docs-agent-ci.log
+
+      - name: Configure GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/build
 
       - name: Upload docs artifacts on failure
         if: failure()
@@ -81,8 +84,21 @@ jobs:
           name: docs-agent-output
           path: |
             docs
+            website/build
             .ai/docs-agent-cache.json
             .ai/docs-agent-ci.log
           if-no-files-found: warn
+
+  docs-deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: docs-build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
 

@@ -20,12 +20,13 @@
   "cache": {
     "file": ".ai/docs-agent-cache.json"
   },
-  "dracosaurus": {
+  "docusaurus": {
     "enabled": true,
-    "command": "dracosaurus",
+    "command": "npm",
+    "cwd": "website",
     "args": [
-      "push",
-      "./docs"
+      "run",
+      "build"
     ],
     "retryInCi": 3
   },

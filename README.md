@@ -40,6 +40,7 @@ AndroidCore/
 ├── .github/agents/                  # Agent descriptors
 ├── .github/skills/                  # Source-of-truth generation rules
 ├── docs/                            # Human-facing documentation
+├── website/                         # Docusaurus site consuming docs/
 └── app/src/main/assets/agents/      # Bundled runtime copies of docs
 ```
 
@@ -122,6 +123,7 @@ Primary docs tasks:
 .\gradlew.bat installDocsPrePushHook
 .\gradlew.bat generateDocs
 .\gradlew.bat publishDocs
+.\gradlew.bat buildDocsSite
 ```
 
 Main docs automation files:
@@ -131,6 +133,14 @@ Main docs automation files:
 - `scripts/hooks/pre-push`
 - `.github/workflows/docs.yml`
 - `docs/guides/autonomous-docs-agent.md`
+
+Docusaurus website commands:
+
+```powershell
+npm --prefix .\website install
+npm --prefix .\website run start
+npm --prefix .\website run build
+```
 
 Generated local output:
 

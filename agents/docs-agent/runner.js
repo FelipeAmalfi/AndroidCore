@@ -484,7 +484,7 @@ function generateDocs(config, components, tokens) {
     "3. Extract design tokens",
     "4. Generate docs",
     "5. Organize docs",
-    "6. Publish"
+    "6. Build Docusaurus site"
   ].join("\n");
   writeText(path.join(architectureDir, "documentation-pipeline.md"), architectureDoc);
 
@@ -492,41 +492,45 @@ function generateDocs(config, components, tokens) {
   writeText(path.join(generatedDir, "tokens.json"), JSON.stringify(tokens, null, 2));
 }
 
-function runCommand(command, args) {
-  const result = spawnSync(command, args, { cwd: repoRoot, encoding: "utf8" });
+function runCommand(command, args, workingDirectory = repoRoot) {
+  const isWindowsNpm = process.platform === "win32" && command === "npm";
+  const result = isWindowsNpm
+    ? spawnSync("cmd", ["/c", "npm", ...args], { cwd: workingDirectory, encoding: "utf8" })
+    : spawnSync(command, args, { cwd: workingDirectory, encoding: "utf8" });
   return {
-    status: result.status,
+    status: typeof result.status === "number" ? result.status : 1,
     stdout: result.stdout || "",
-    stderr: result.stderr || ""
+    stderr: result.error ? result.error.message : (result.stderr || "")
   };
 }
 
-function publish(config, allowPublishFailure) {
-  if (!config.autoPublish || !config.dracosaurus || !config.dracosaurus.enabled) {
-    log("Publish disabled by config.");
-    return { published: false, skipped: true };
+function buildDocsSite(config, allowPublishFailure) {
+  if (!config.autoPublish || !config.docusaurus || !config.docusaurus.enabled) {
+    log("Docusaurus build disabled by config.");
+    return { built: false, skipped: true };
   }
 
-  const command = config.dracosaurus.command || "dracosaurus";
-  const args = Array.isArray(config.dracosaurus.args) ? config.dracosaurus.args : ["push", "./docs"];
-  const result = runCommand(command, args);
+  const command = config.docusaurus.command || "npm";
+  const args = Array.isArray(config.docusaurus.args) ? config.docusaurus.args : ["run", "build"];
+  const cwd = path.resolve(repoRoot, config.docusaurus.cwd || "website");
+  const result = runCommand(command, args, cwd);
 
   if (result.stdout.trim()) {
     console.log(result.stdout.trim());
   }
 
   if (result.status !== 0) {
-    const errorMessage = result.stderr.trim() || "Unknown Dracosaurus publish error.";
+    const errorMessage = result.stderr.trim() || "Unknown Docusaurus build error.";
     if (allowPublishFailure) {
-      log(`Publish failed but allowed to continue: ${errorMessage}`);
-      return { published: false, skipped: false, error: errorMessage };
+      log(`Docusaurus build failed but allowed to continue: ${errorMessage}`);
+      return { built: false, skipped: false, error: errorMessage };
     }
 
-    throw new Error(`Dracosaurus publish failed: ${errorMessage}`);
+    throw new Error(`Docusaurus build failed: ${errorMessage}`);
   }
 
-  log("Dracosaurus publish completed.");
-  return { published: true, skipped: false };
+  log("Docusaurus build completed.");
+  return { built: true, skipped: false };
 }
 
 function main() {
@@ -545,7 +549,7 @@ function main() {
   if (!shouldGenerate) {
     log("No relevant Kotlin/design-system/token changes detected. Skipping docs generation.");
     if (args.mode === "publish" || args.mode === "run") {
-      publish(config, args.allowPublishFailure);
+      buildDocsSite(config, args.allowPublishFailure);
     }
     return;
   }
@@ -566,7 +570,7 @@ function main() {
   log(`Generated docs for ${components.length} components.`);
 
   if (args.mode === "publish" || args.mode === "run") {
-    publish(config, args.allowPublishFailure);
+    buildDocsSite(config, args.allowPublishFailure);
   }
 }
 

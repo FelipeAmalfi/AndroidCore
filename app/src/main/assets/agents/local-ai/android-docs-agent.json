@@ -2,7 +2,7 @@
   "name": "android-docs-agent",
   "version": "1.0.0",
   "description": "Generates and publishes AndroidCore documentation from Kotlin and design-system sources.",
-  "prompt": "Run docs pipeline in order: scan project, extract-kotlin-components, extract-design-tokens, generate-docs, organize-docs, publish-dracosaurus.",
+  "prompt": "Run docs pipeline in order: scan project, extract-kotlin-components, extract-design-tokens, generate-docs, organize-docs, build-docusaurus.",
   "skill": "androidcore-docs-pipeline"
 }
 

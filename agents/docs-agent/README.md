@@ -9,11 +9,12 @@ Autonomous documentation pipeline for AndroidCore.
 3. Extract design tokens from `design-system`.
 4. Generate markdown docs.
 5. Organize docs structure.
-6. Publish to Dracosaurus.
+6. Build Docusaurus site.
 
 ## Run
 
 ```powershell
+npm --prefix .\website install
 node .\agents\docs-agent\runner.js --mode generate
 node .\agents\docs-agent\runner.js --mode publish
 ```

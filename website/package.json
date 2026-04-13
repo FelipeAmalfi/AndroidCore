@@ -1,0 +1,19 @@
+{
+  "name": "androidcore-docs-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Docusaurus website for AndroidCore docs/",
+  "scripts": {
+    "start": "docusaurus start --host 0.0.0.0 --port 3000",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.10.0",
+    "@docusaurus/preset-classic": "^3.10.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "webpack": "5.101.3"
+  }
+}

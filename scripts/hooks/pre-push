@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# Run docs generation + publish before push, but do not block push on publish failures.
+# Run docs generation + Docusaurus build before push, but do not block push on site build failures.
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
 if [ -z "$REPO_ROOT" ]; then
   echo "[docs-agent] Unable to resolve repository root; skipping docs hook."

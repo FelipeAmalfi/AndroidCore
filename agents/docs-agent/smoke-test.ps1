@@ -9,5 +9,5 @@ $runnerPath = Join-Path $repoRoot "agents\docs-agent\runner.js"
 node $runnerPath --mode generate
 node $runnerPath --mode publish --allow-publish-failure
 
-Write-Host "Docs agent smoke test completed."
+Write-Host "Docs agent smoke test (generate + Docusaurus build) completed."
 

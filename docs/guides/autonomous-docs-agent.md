@@ -6,8 +6,8 @@ This guide explains the zero-manual docs automation added to AndroidCore.
 
 - Local pre-push hook runs docs agent.
 - Docs generation runs only when relevant source changes are detected.
-- Dracosaurus publish is attempted.
-- Publish failures in local hook are logged and do not block push.
+- Docusaurus site build is attempted.
+- Site build failures in local hook are logged and do not block push.
 
 ## Flow
 
@@ -16,7 +16,7 @@ This guide explains the zero-manual docs automation added to AndroidCore.
 3. Extract design tokens.
 4. Generate docs markdown.
 5. Organize docs directories.
-6. Publish docs.
+6. Build Docusaurus site.
 
 ## Key files
 
@@ -24,7 +24,7 @@ This guide explains the zero-manual docs automation added to AndroidCore.
 - `agents/docs-agent/runner.js`
 - `scripts/hooks/pre-push`
 - `.github/workflows/docs.yml`
-- `build.gradle.kts` (`generateDocs`, `publishDocs`, `installDocsPrePushHook`)
+- `build.gradle.kts` (`generateDocs`, `publishDocs`, `buildDocsSite`, `installDocsPrePushHook`)
 
 ## Local commands
 
@@ -32,13 +32,15 @@ This guide explains the zero-manual docs automation added to AndroidCore.
 .\gradlew.bat installDocsPrePushHook
 .\gradlew.bat generateDocs
 .\gradlew.bat publishDocs
+.\gradlew.bat buildDocsSite
 ```
 
 ## CI
 
 Workflow: `.github/workflows/docs.yml`
 
-- Trigger: `push`
-- Retries Dracosaurus publish up to 3 times
+- Trigger: `pull_request`, `push` (branch `main`), and manual `workflow_dispatch`
+- Builds Docusaurus on each trigger
+- Deploys to GitHub Pages only on pushes to `main`
 - Uploads docs artifacts when failures happen
 

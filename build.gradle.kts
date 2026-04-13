@@ -110,7 +110,7 @@ tasks.register<Exec>("generateDocs") {
 
 tasks.register<Exec>("publishDocs") {
     group = docsGroup
-    description = "Runs docs generation and publishes docs to Dracosaurus."
+    description = "Runs docs generation and builds the Docusaurus docs site."
     workingDir = rootDir
     dependsOn("generateDocs", "installDocsPrePushHook")
     commandLine(
@@ -118,6 +118,19 @@ tasks.register<Exec>("publishDocs") {
             listOf("cmd", "/c", "node agents\\docs-agent\\runner.js --mode publish --allow-publish-failure")
         } else {
             listOf("sh", "-c", "node agents/docs-agent/runner.js --mode publish --allow-publish-failure")
+        }
+    )
+}
+
+tasks.register<Exec>("buildDocsSite") {
+    group = docsGroup
+    description = "Builds the Docusaurus website from docs/."
+    workingDir = rootDir
+    commandLine(
+        if (isWindows) {
+            listOf("cmd", "/c", "npm --prefix website run build")
+        } else {
+            listOf("sh", "-c", "npm --prefix website run build")
         }
     )
 }
